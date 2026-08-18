@@ -1,0 +1,15 @@
+{
+"name":"Поверка манометров",
+"autosave":"true",
+"scripts":[
+{"file":"1. Регистрация образца.py","necessary":"false"},
+{"file":"2. Поверка образца.py","necessary":"false"},
+{"file":"3. Формирование протокола.py","necessary":"false"}
+],
+"libraries":[
+
+],
+"templates":[
+{"file":"Поверка.docx"}
+]
+}

@@ -1,0 +1,114 @@
+{
+"scripts":
+[
+{"name":"1. Регистрация образца","smark":"passed"},
+{"name":"2. Поверка образца","smark":"passed"},
+{"name":"3. Формирование протокола","smark":"passed"}
+],
+"report":
+[
+{"name":"AccuracyClass","kind":"string","info":"Класс точности","script":"1. Регистрация образца",
+"data":"0,4"},
+{"name":"UnitOfMeasure","kind":"string","info":"Единицы измерения","script":"1. Регистрация образца",
+"data":"МПа"},
+{"name":"ScaleMax","kind":"string","info":"Предельное значение давления на шкале прибора","script":"1. Регистрация образца",
+"data":"10.0000"},
+{"name":"FirstPoint","kind":"string","info":"Первая поверяемая точка на шкале прибора после нуля","script":"1. Регистрация образца",
+"data":"2.00000"},
+{"name":"ValueofDivision","kind":"string","info":"Цена деления","script":"1. Регистрация образца",
+"data":"0,200"},
+{"name":"TypeofUnit","kind":"string","info":"Тип образца","script":"1. Регистрация образца",
+"data":"Манометр"},
+{"name":"PermissibleError","kind":"string","info":"Пределы допускаемой погрешности","script":"1. Регистрация образца",
+"data":"50.0000m"},
+{"name":"StampNumber","kind":"string","info":"Номер штампа","script":"1. Регистрация образца",
+"data":"111222"},
+{"name":"Owner","kind":"string","info":"Владелец","script":"1. Регистрация образца",
+"data":"Компания 'MOKO'"},
+{"name":"Verifier","kind":"string","info":"ФИО поверителя","script":"1. Регистрация образца",
+"data":"Johnny Respect"},
+{"name":"VerificationLocation","kind":"string","info":"Место проведения поверки","script":"1. Регистрация образца",
+"data":"Планета земля"},
+{"name":"WorkplaceNumber","kind":"string","info":"Номер рабочего места","script":"1. Регистрация образца",
+"data":"1"},
+{"name":"OrderNumber","kind":"string","info":"Номер заказа","script":"1. Регистрация образца",
+"data":"1"},
+{"name":"Day","kind":"string","info":"День (дата)","script":"1. Регистрация образца",
+"data":"18"},
+{"name":"Month","kind":"string","info":"Месяц (дата)","script":"1. Регистрация образца",
+"data":"Август"},
+{"name":"Year","kind":"string","info":"Год (дата)","script":"1. Регистрация образца",
+"data":"2026"},
+{"name":"ProtocolNumber","kind":"string","info":"Номер протокола","script":"1. Регистрация образца",
+"data":"G-111111"},
+{"name":"Temperature","kind":"string","info":"Температура","script":"1. Регистрация образца",
+"data":"22,0"},
+{"name":"Humidity","kind":"string","info":"Влажность","script":"1. Регистрация образца",
+"data":"60,0"},
+{"name":"AmbientPressure","kind":"string","info":"Давление окружающей среды","script":"1. Регистрация образца",
+"data":"750,0"},
+{"name":"Driver","kind":"string","info":"Драйвер","script":"1. Регистрация образца",
+"data":"Simulation"},
+{"name":"UnitNumber","kind":"string","info":"Номер образца","script":"1. Регистрация образца",
+"data":"5555,0"},
+{"name":"MeasuringRange","kind":"string","info":"","script":"2. Поверка образца",
+"data":"(0-10,0)"},
+{"name":"Result","kind":"string","info":"","script":"2. Поверка образца",
+"data":"не соответствует"},
+{"name":"MaxErr","kind":"string","info":"","script":"2. Поверка образца",
+"data":"0,148"},
+{"name":"Res_table1","kind":"table","info":"#200;#200;#200;#200;#200;#150;#150","script":"2. Поверка образца",
+"data":"Номер рабочего места 1;Тип Манометр;Диапазон (0-10,0);Класс точности 0.4;Ц.д. 0,200;;;\r
+Внешний осмотр соответствует;Опробование не соответствует;Номер клейма 111222;;;Подпись;;\r
+Показания эталона, ед. изм.;Показания поверяемого прибора\nед. изм. при повышении давления;Показания поверяемого прибора\nед. изм. при понижении давления;Абсолютная погрешность,\nед. изм. при повышении;Показания поверяемого прибора\nед. изм. при понижении;Вариация ед. изм.;Результаты погрешности.\nЗаключение;\r
+0,0;-0,018;0,148;-0,018;0,148;-0,166;[Delta]max= 0,148МПа;\r
+2,0;1,861;1,943;-0,139;-0,057;-0,082;;\r
+4,0;4,079;3,86;0,079;-0,14;0,219;;\r
+8,0;8,021;7,981;0,021;-0,019;0,04;;\r
+10,0;9,98;9,952;-0,02;-0,048;0,028;[Delta]доп= ±50.0000m;\r
+;;;;;;;\r
+"},
+{"name":"Res_table","kind":"table","info":"","script":"2. Поверка образца",
+"data":"0,0;-0,018;0,148;-0,018;0,148;-0,166;\r
+2,0;1,861;1,943;-0,139;-0,057;-0,082;\r
+4,0;4,079;3,86;0,079;-0,14;0,219;\r
+8,0;8,021;7,981;0,021;-0,019;0,04;\r
+10,0;9,98;9,952;-0,02;-0,048;0,028;\r
+"},
+{"name":"Appearance","kind":"string","info":"","script":"2. Поверка образца",
+"data":"соответствует"},
+{"name":"Conclusion","kind":"string","info":"","script":"2. Поверка образца",
+"data":"не годен"},
+{"name":"PermissibleErr","kind":"string","info":"","script":"3. Формирование протокола",
+"data":"50.0000m"},
+{"name":"UnitofMeasure","kind":"string","info":"","script":"3. Формирование протокола",
+"data":"МПа"},
+{"name":"UnitofMeasure1","kind":"string","info":"","script":"3. Формирование протокола",
+"data":"МПа"},
+{"name":"UnitofMeasure2","kind":"string","info":"","script":"3. Формирование протокола",
+"data":"МПа"},
+{"name":"UnitofMeasure3","kind":"string","info":"","script":"3. Формирование протокола",
+"data":"МПа"},
+{"name":"UnitofMeasure4","kind":"string","info":"","script":"3. Формирование протокола",
+"data":"МПа"},
+{"name":"UoM1","kind":"string","info":"","script":"3. Формирование протокола",
+"data":"МПа"},
+{"name":"UoM2","kind":"string","info":"","script":"3. Формирование протокола",
+"data":"МПа"},
+{"name":"UoM3","kind":"string","info":"","script":"3. Формирование протокола",
+"data":"МПа"},
+{"name":"UoM4","kind":"string","info":"","script":"3. Формирование протокола",
+"data":"МПа"},
+{"name":"ReportPrint","kind":"string","info":"","script":"3. Формирование протокола",
+"data":""}
+
+],
+"tree":
+[
+{"line":"0","name":"Поверка манометров","type":"project","project":"","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"1","name":"1. Регистрация образца","type":"script","project":"Поверка манометров","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"2","name":"Регистрация образца","type":"region","project":"Поверка манометров","script":"1. Регистрация образца","region":"","status":"passed","pcode":"5","pcount":"2"},
+{"line":"3","name":"2. Поверка образца","type":"script","project":"Поверка манометров","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
+{"line":"4","name":"3. Формирование протокола","type":"script","project":"Поверка манометров","script":"","region":"","status":"empty","pcode":"0","pcount":"1"}
+]
+}
