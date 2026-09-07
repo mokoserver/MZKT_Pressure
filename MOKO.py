@@ -248,39 +248,57 @@ StageScript = partial(Stage, type='script')
 
 # region --- StageSeparator() / Декоративный разделитель в лог ---
 def StageSeparator(
-    word: str = '',
-    width: int = 80,
-    fillchar: str = '-',
-    align: Literal['center', 'left', 'right'] = 'center',
-    stage_type: StageType  = 'info'
+        word: str = '',
+        width: int = 240,
+        fillchar: str = '-',
+        align: Literal['center', 'left', 'right'] = 'center',
+        stage_type: StageType = 'info',
+        char_width_factor: float = 1.585  # 👈 КОЭФФИЦИЕНТ: насколько буква шире черточки
 ) -> None:
     """
-    Выводит в Stage декоративный разделитель – строку, заполненную символами,
-    с опциональным словом посередине (или слева/справа).
+    Выводит в Stage декоративный разделитель.
 
     Args:
-        word (str): Слово для вставки в разделитель. Если пусто – сплошная линия.
-        width (int): Общая ширина разделителя (в символах). По умолчанию 80.
-        fillchar (str): Символ-заполнитель (один символ). По умолчанию '-'.
-        align (str): Выравнивание слова:
-                     - 'center' – слово по центру,
-                     - 'left'   – слово слева, остальное заполнитель справа,
-                     - 'right'  – слово справа, остальное заполнитель слева.
-        stage_type (str): Тип сообщения Stage (см. Stage). По умолчанию 'info'.
+        word (str): Слово для вставки в разделитель.
+        width (int): Желаемая общая ширина (в символах fillchar). По умолчанию 240.
+        fillchar (str): Символ-заполнитель.
+        align (str): Выравнивание слова.
+        stage_type (str): Тип сообщения Stage.
+        char_width_factor (float): Коэффициент ширины букв относительно fillchar.
+                                   Например: 1.3 означает, что буква в 1.3 раза шире '-'
+                                   Подберите экспериментально для вашего шрифта.
     """
     if not word:
         # Пустое слово → сплошная линия
         line = fillchar * width
     else:
-        # Длина слова может быть больше ширины – обрежем?
+        # Длина слова может быть больше ширины – обрежем
         if len(word) > width:
-            word = word[:width-3] + '...'  # чтобы не разрывать Stage
+            word = word[:width - 3] + '...'
+
+        # 👇 ГЛАВНАЯ ЛОГИКА: считаем, сколько места "съедают" буквы
+        # Каждая буква занимает место: 1 (как fillchar) * char_width_factor
+        # Но fillchar занимает 1 место, поэтому буква "съедает" дополнительно (char_width_factor - 1)
+        extra_space = int(len(word) * (char_width_factor - 1))
+
+        # Уменьшаем ширину на "съеденное" место
+        adjusted_width = width - extra_space
+
+        # Минимальная ширина - чтобы не было отрицательной
+        if adjusted_width < len(word) + 2:
+            adjusted_width = len(word) + 2
+
         if align == 'center':
-            line = f"{word:{fillchar}^{width}}"
+            # Слово с пробелами по бокам
+            word_with_spaces = f" {word} "
+            if len(word_with_spaces) > adjusted_width:
+                word_with_spaces = word
+            line = f"{word_with_spaces:{fillchar}^{adjusted_width}}"
         elif align == 'left':
-            line = f"{word:{fillchar}<{width}}"
+            line = f"{word:{fillchar}<{adjusted_width}}"
         else:  # right
-            line = f"{word:{fillchar}>{width}}"
+            line = f"{word:{fillchar}>{adjusted_width}}"
+
     Stage(line, stage_type)
 
 # endregion
@@ -1229,14 +1247,14 @@ def UtilityGet(name: str,
 def UtilityGetParseKeyValue(utility_name: str, command: str = "info") -> dict:
     """
     Получает данные от утилиты MOKO и преобразует в словарь.
-    Поддерживает как список строк (типично для 'arraystring'), так и строку с разделителями ';'.
+    Поддерживает как список строк, так и строку с разделителями ';'.
+    Комментарии (после '#') удаляются из значений.
     """
-    raw_data = None  # инициализируем заранее
+    raw_data = None
     try:
         raw_data = Utility(utility_name, "get", command, "arraystring")
-        #StageMessage(f"DEBUG: {utility_name}.{command} raw type = {type(raw_data)}")
 
-        # Приводим raw_data к списку строк (items)
+        # Приводим raw_data к списку строк
         if isinstance(raw_data, list):
             items = raw_data
         elif isinstance(raw_data, str):
@@ -1250,22 +1268,18 @@ def UtilityGetParseKeyValue(utility_name: str, command: str = "info") -> dict:
                 continue
             if ':' in item:
                 key, value = item.split(':', 1)
-                data[key.strip()] = value.strip()
+                # Очищаем ключ
+                key = key.strip()
+                # Очищаем значение: убираем пробелы и отрезаем комментарий (всё после '#')
+                value = value.strip()
+                if '#' in value:
+                    value = value.split('#', 1)[0].strip()
+                data[key] = value
             else:
                 StageError(f"Некорректный элемент: '{item}' (нет ':')")
         return data
-
     except Exception as e:
-        StageError(f"Ошибка при получении/парсинге данных от {utility_name}.{command}")
-        if 'raw_data' in locals() and raw_data is not None:
-            StageError("Содержимое полученных данных (построчно):")
-            if isinstance(raw_data, list):
-                for line in raw_data:
-                    StageError(f"  {line}")
-            else:
-                for line in str(raw_data).splitlines():
-                    StageError(f"  {line}")
-        StageError(f"Текст исключения: {e}")
+        StageError(f"Ошибка парсинга: {e}")
         return {}
 # endregion
 
@@ -1664,12 +1678,12 @@ def HashExecuteStep(step_string: str) -> None:
         # Выбираем хэш в дереве (склеиваем обратно название и ID)
         HashSelect(f"{step_name}${step_id}")
         # Выводим информационное сообщение о начале шага
-        Stage(f"--- {step_name} ---")
+        StageSeparator(f"{step_name}")
     else:
         # Если символа $ в строке нет, используем всю строку как хэш
         HashSelect(step_string)
         # Выводим строку в Stage как есть
-        Stage(f"--- {step_string} ---")
+        StageSeparator(step_string)
 
     return
 # endregion

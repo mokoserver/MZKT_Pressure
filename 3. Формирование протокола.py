@@ -1,50 +1,90 @@
 import MOKO
 # Результат измерений
 #Region ------------------------------$REP1
-PermissibleError = MOKO.ReportGet('PermissibleError', 'string')  # Пределы допускаемой погрешности
-UnitOfMeasure = MOKO.ReportGet('UnitOfMeasure', 'string')        # единицы измерения
+# ============================================================
+# ПОЛУЧЕНИЕ ДАННЫХ ИЗ ОТЧЕТА
+# ============================================================
+try:
+    # Получаем необходимые данные из отчета для подстановки в протокол
+    Result = MOKO.ReportGet('Результат поверки', 'string')           # Результат поверки
+    Conclusion = MOKO.ReportGet('Заключение', 'string')              # Заключение
+except Exception as e:
+    MOKO.StageError(f"Ошибка при получении данных из отчета: {e}")
+    MOKO.HashSet('failed')
+    MOKO.ScriptEnd('failed')
 
 
 #hash Создание протокола: MS Word;
 #hash Повторить измерения
 #hash Завершить
-MOKO.ReportSetStrings(('PermissibleErr', f'{PermissibleError}'),
-                      ('UnitofMeasure', f'{UnitOfMeasure}'),
-                      ('UnitofMeasure1', f'{UnitOfMeasure}'),
-                      ('UnitofMeasure2', f'{UnitOfMeasure}'),
-                      ('UnitofMeasure3', f'{UnitOfMeasure}'),
-                      ('UnitofMeasure4', f'{UnitOfMeasure}'))
 
 
+# ============================================================
+# СОЗДАНИЕ ПРОТОКОЛА
+# ============================================================
+try:
+    MOKO.HashSelect('Создание протокола')
+    MOKO.StageSeparator("Формирование протокола поверки")
+    # Создаем протокол в формате Word
+    MOKO.Export("Word")
+    MOKO.StageSuccess("Протокол поверки успешно создан в формате MS Word")
+    MOKO.HashSet('passed')
 
-MOKO.ReportSetStrings(('UoM1', f'{UnitOfMeasure}'),
-                      ('UoM2', f'{UnitOfMeasure}'),
-                      ('UoM3', f'{UnitOfMeasure}'),
-                      ('UoM4', f'{UnitOfMeasure}'))
+    # Если нужно создать PDF - раскомментировать
+    # MOKO.Export("PDF")
+    # MOKO.StageSuccess("Протокол поверки успешно создан в формате PDF")
 
+except Exception as e:
+    MOKO.StageError(f"Ошибка при создании протокола: {e}")
+    MOKO.HashSet('failed')
+    MOKO.ScriptEnd('failed')
+# ============================================================
 
-MOKO.Stage('Поверка завершена.', 'info')
+# ============================================================
+# ВОПРОС О ПОВТОРЕ ИЗМЕРЕНИЙ
+# ============================================================
+try:
+    MOKO.HashSelect('Повторить измерения')
+    MOKO.StageSeparator("Завершение работы")
 
+    # hash Повторить измерения
+    # hash Завершить
 
-variable = MOKO.Messenger("get", "Протокол измерений #repeat.png",
-                                  "Сохранить текущие результаты? \n"
-                                  "Отмена запустит измерения повторно.",
-                          "boolean = false time = 10")
+    # Формируем информационное сообщение с результатами
+    status_message = "Протокол успешно создан!\n\n"
+    status_message += f"Результат поверки: {Result if Result else 'не определен'}\n"
+    status_message += f"Заключение: {Conclusion if Conclusion else 'не определено'}\n\n"
+    status_message += "Желаете ли вы выполнить измерения повторно?\n"
+    status_message += "• 'Да' - перезапустить проект и начать заново\n"
+    status_message += "• 'Нет' - завершить работу"
 
-#MOKO.ExecuteStep("Создание протокола$REPORT")
-#MOKO.Program('Control', 'set', 'Save project report')
+    # Показываем диалог с вопросом о повторных измерениях
+    repeat = MOKO.MessageGetBool(
+        'Повторить измерения? #images\GoodProtocol.png',
+        status_message,
+        boolean=False,  # По умолчанию "Нет"
+        timeout=30  # Авто-закрытие через 30 секунд (выберется "Нет")
+    )
 
-if variable:
-    try:
-        MOKO.Export("Word")
-        MOKO.StageSuccess("Word-отчет сгенерирован")
+    if repeat:
+        MOKO.StageInfo("Повторные измерения: перезапуск проекта")
+        MOKO.StageSeparator("Перезапуск проекта...")
         MOKO.HashSet('passed')
-    except Exception as e:
-        MOKO.StageError(f"Ошибка во время генерации отчета: {e}")
-        MOKO.HashSet('failed')
-else:
-    MOKO.ProjectRestart()
+        # Перезапускаем проект
+        MOKO.ProjectRestart()
+    else:
+        MOKO.StageSuccess("Поверка завершена. Протокол сохранён.")
+        MOKO.HashSet('passed')
+        # Завершаем скрипт с успехом
+        MOKO.ScriptEnd('passed')
+
+except Exception as e:
+    MOKO.StageError(f"Ошибка при отображении диалога повторных измерений: {e}")
+    MOKO.HashSet('failed')
+    MOKO.ScriptEnd('failed')
+# ============================================================
 
 
-
+MOKO.HashSelect('Завершить')
+MOKO.HashSet('passed')
 MOKO.EndScript()
