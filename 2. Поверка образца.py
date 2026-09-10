@@ -155,8 +155,20 @@ try:
         max_err,
     )
 
-    MOKO.ReportTableCreate('Перечень приборов давления',"Тип СИ;Предел измерения;Ед. изм.;Класс точности;Заводской номер;Результат поверки;Дата поверки" )
-    MOKO.ReportSetTable('Перечень приборов давления',)
+    MOKO.ReportTableCreate('Перечень приборов давления',"Тип СИ#80;"
+                                                        "Предел \nизмерения;"
+                                                        "Ед. изм.;"
+                                                        "Класс точности;"
+                                                        "Заводской номер;"
+                                                        "Результат поверки;"
+                                                        "Дата поверки;", 15 )
+    MOKO.ReportSetTable('Перечень приборов давления',f'{params.device_type};'
+                                                     f'{params.scale_max};'
+                                                     f'{params.unit};'
+                                                     f'{params.accuracy};'
+                                                     f'{params.serial_number};'
+                                                     f'{result};'
+                                                     f'{params.protocol_date};')
     # ---- ИНИЦИАЛИЗИРУЕМ ПЕРВУЮ ТАБЛИЦУ (с информацией об образце) ----
     #results(
     #    params.location,

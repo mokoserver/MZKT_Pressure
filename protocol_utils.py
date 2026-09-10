@@ -53,6 +53,8 @@ def extract_parameters(data):
         device_type        = str(data['device_type']),
         division           = str(data['division']),
         stamp_number       = str(data['stamp_number']),
+        serial_number      = str(data['serial_number']),
+        protocol_date      = str(data['protocol_date']),
     )
 
 def fill_report_info(data):
