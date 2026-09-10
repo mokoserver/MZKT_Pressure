@@ -1,4 +1,5 @@
 import MOKO
+
 # Результат измерений
 #Region ------------------------------$REP1
 # ============================================================
@@ -6,13 +7,12 @@ import MOKO
 # ============================================================
 try:
     # Получаем необходимые данные из отчета для подстановки в протокол
-    Result = MOKO.ReportGet('Результат поверки', 'string')           # Результат поверки
-    Conclusion = MOKO.ReportGet('Заключение', 'string')              # Заключение
+    Result = MOKO.ReportGet('Результат поверки', 'string')  # Результат поверки
+    Conclusion = MOKO.ReportGet('Заключение', 'string')  # Заключение
 except Exception as e:
     MOKO.StageError(f"Ошибка при получении данных из отчета: {e}")
     MOKO.HashSet('failed')
     MOKO.ScriptEnd('failed')
-
 
 #hash Создание протокола: MS Word;
 #hash Повторить измерения
@@ -28,6 +28,11 @@ try:
     # Создаем протокол в формате Word
     MOKO.Export("Word")
     MOKO.StageSuccess("Протокол поверки успешно создан в формате MS Word")
+
+    # Сохраняем файл проекта (.mpr)
+    MOKO.Program('control', 'set', 'SaveProjectReport')
+    MOKO.StageSuccess("Файл проекта (.mpr) успешно сохранён")
+
     MOKO.HashSet('passed')
 
     # Если нужно создать PDF - раскомментировать
@@ -47,8 +52,6 @@ try:
     MOKO.HashSelect('Повторить измерения')
     MOKO.StageSeparator("Завершение работы")
 
-    # hash Повторить измерения
-    # hash Завершить
 
     # Формируем информационное сообщение с результатами
     status_message = "Протокол успешно создан!\n\n"
@@ -58,9 +61,15 @@ try:
     status_message += "• 'Да' - перезапустить проект и начать заново\n"
     status_message += "• 'Нет' - завершить работу"
 
+    # Выбираем картинку в зависимости от результата
+    if Conclusion == 'не годен' or Result == 'не соответствует':
+        image_path = 'images\\BadProtocol.png'
+    else:
+        image_path = 'images\\GoodProtocol.png'
+
     # Показываем диалог с вопросом о повторных измерениях
     repeat = MOKO.MessageGetBool(
-        'Повторить измерения? #images\GoodProtocol.png',
+        f'Повторить измерения? #{image_path}',
         status_message,
         boolean=False,  # По умолчанию "Нет"
         timeout=30  # Авто-закрытие через 30 секунд (выберется "Нет")
@@ -76,6 +85,8 @@ try:
         MOKO.StageSuccess("Поверка завершена. Протокол сохранён.")
         MOKO.HashSet('passed')
         # Завершаем скрипт с успехом
+        MOKO.HashSelect('Завершить')
+        MOKO.HashSet('passed')
         MOKO.ScriptEnd('passed')
 
 except Exception as e:
@@ -83,8 +94,3 @@ except Exception as e:
     MOKO.HashSet('failed')
     MOKO.ScriptEnd('failed')
 # ============================================================
-
-
-MOKO.HashSelect('Завершить')
-MOKO.HashSet('passed')
-MOKO.EndScript()

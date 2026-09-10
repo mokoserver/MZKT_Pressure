@@ -9,7 +9,7 @@ RESULT_GOOD = 'годен'
 RESULT_BAD = 'не годен'
 MATCH_YES = 'соответствует'
 MATCH_NO = 'не соответствует'
-FAKE_VALUE = 0.15
+FAKE_VALUE = 0.005
 def final_checkpoints(checkpoints, accuracy_class):
     """
     Формирует итоговый список контрольных точек согласно СТБ 8056-2015 (п. 8.3.1.5).
