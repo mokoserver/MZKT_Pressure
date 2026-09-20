@@ -438,10 +438,12 @@ def perform_operational_test(step_string="Результат опробован�
 
 def check_compliance_and_abort_if_failed(trial_appearance, trial_result, workplace,
                                          typeofunit, scalemax, accuracyclass,
-                                         valueofdivision, stampnumber):
+                                         valueofdivision, stampnumber,
+                                         step_string = "Проверка соответствия образца"):
     """
     Проверяет результаты внешнего осмотра и опробования.
     """
+    MOKO.HashSelect(step_string)
     if trial_appearance == MATCH_NO or trial_result == MATCH_NO:
         MOKO.StageSeparator("Образец не соответствует требованиям внешнего осмотра или опробования")
         MOKO.StageError("Измерения не проводятся. Образец признан негодным.")
@@ -457,4 +459,5 @@ def check_compliance_and_abort_if_failed(trial_appearance, trial_result, workpla
 
         MOKO.HashSet('failed')
         MOKO.ScriptEnd('failed')
+    MOKO.HashSet('passed')
 # Endregion

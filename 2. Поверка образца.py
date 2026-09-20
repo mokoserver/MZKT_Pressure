@@ -23,7 +23,8 @@ try:
     #hash Проверка соответствия образца
     check_compliance_and_abort_if_failed(
         trial_appearance, trial_result,
-        params.location, params.device_type, params.scale_max, params.accuracy, params.division, params.stamp_number
+        params.location, params.device_type, params.scale_max, params.accuracy, params.division, params.stamp_number,
+        "Проверка соответствия образца"
     )
 except Exception as e:
     MOKO.StageError(f"Ошибка при проведении внешнего осмотра или опробования: {e}")

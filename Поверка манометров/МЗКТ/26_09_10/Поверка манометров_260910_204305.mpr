@@ -3,7 +3,7 @@
 [
 {"name":"1. Регистрация образца","smark":"passed"},
 {"name":"2. Поверка образца","smark":"passed"},
-{"name":"3. Формирование протокола","smark":"passed"}
+{"name":"3. Формирование протокола","smark":"start"}
 ],
 "report":
 [
@@ -126,8 +126,8 @@
 {"line":"34","name":"Формирование отчета и завершение","type":"region","project":"Поверка манометров","script":"2. Поверка образца","region":"","status":"empty","pcode":"0","pcount":"2"},
 {"line":"35","name":"3. Формирование протокола","type":"script","project":"Поверка манометров","script":"","region":"","status":"empty","pcode":"0","pcount":"1"},
 {"line":"36","name":"------------------------------$REP1","type":"region","project":"Поверка манометров","script":"3. Формирование протокола","region":"","status":"empty","pcode":"0","pcount":"2"},
-{"line":"37","name":"Создание протокола","type":"hesh","project":"Поверка манометров","script":"3. Формирование протокола","region":"------------------------------$REP1","status":"passed","pcode":"5","pcount":"2"},
-{"line":"38","name":"Повторить измерения","type":"hesh","project":"Поверка манометров","script":"3. Формирование протокола","region":"------------------------------$REP1","status":"passed","pcode":"5","pcount":"2"},
-{"line":"39","name":"Завершить","type":"hesh","project":"Поверка манометров","script":"3. Формирование протокола","region":"------------------------------$REP1","status":"passed","pcode":"5","pcount":"2"}
+{"line":"37","name":"Создание протокола","type":"hesh","project":"Поверка манометров","script":"3. Формирование протокола","region":"------------------------------$REP1","status":"empty","pcode":"3","pcount":"2"},
+{"line":"38","name":"Повторить измерения","type":"hesh","project":"Поверка манометров","script":"3. Формирование протокола","region":"------------------------------$REP1","status":"empty","pcode":"3","pcount":"2"},
+{"line":"39","name":"Завершить","type":"hesh","project":"Поверка манометров","script":"3. Формирование протокола","region":"------------------------------$REP1","status":"empty","pcode":"3","pcount":"2"}
 ]
 }

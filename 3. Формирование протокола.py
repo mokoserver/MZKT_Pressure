@@ -1,4 +1,5 @@
 import MOKO
+from protocol_utils import get_protocol_info, extract_parameters
 
 # Результат измерений
 #Region ------------------------------$REP1
@@ -7,8 +8,13 @@ import MOKO
 # ============================================================
 try:
     # Получаем необходимые данные из отчета для подстановки в протокол
+    UN = 'moko_pressure_graph'  # Utility Name
     Result = MOKO.ReportGet('Результат поверки', 'string')  # Результат поверки
     Conclusion = MOKO.ReportGet('Заключение', 'string')  # Заключение
+    Conclusion = MOKO.ReportGet('Заключение', 'string')  # Заключение
+    # Извлечение словаря с данными, введёнными пользователем через интерфейс
+    data = get_protocol_info()
+    params = extract_parameters(data)  # все переменные готовы
 except Exception as e:
     MOKO.StageError(f"Ошибка при получении данных из отчета: {e}")
     MOKO.HashSet('failed')
@@ -30,7 +36,7 @@ try:
     MOKO.StageSuccess("Протокол поверки успешно создан в формате MS Word")
 
     # Сохраняем файл проекта (.mpr)
-    MOKO.Program('control', 'set', 'SaveProjectReport')
+    MOKO.Program('control', 'set', f'SaveProjectReportFolder {params.location}')
     MOKO.StageSuccess("Файл проекта (.mpr) успешно сохранён")
 
     MOKO.HashSet('passed')

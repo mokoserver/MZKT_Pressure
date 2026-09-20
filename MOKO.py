@@ -1365,7 +1365,7 @@ ControlSetStaticCmd = Literal[# ------- main -------
                         # ------- Panel Control -------
                         'Start', 'Pause', 'Stop', 'Reset','EditExecution', 'ProjectHistory', 'PersonalProjects',
                         # ------- Project -------
-                        'SaveProjectReport', 'SaveTempProjectReport', 'SaveProjectReportAs','LoadProjectReport',
+                        'SaveProjectReport', 'SaveProjectReportFolder = ', 'SaveTempProjectReport', 'SaveProjectReportAs','LoadProjectReport',
                         # ------- Word / Pdf-------
                         'SaveWordReport', 'SaveWordReportAs', 'SavePdfReport','SavePdfReportAs',
                         # ------- Stage -------
