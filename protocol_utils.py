@@ -73,6 +73,7 @@ def fill_report_info(data):
         ("Максимальное давление",     parse_engineering_string(data['scale_max']), "Максимальное значение шкалы прибора"),
 
         ("Первая точка",              data['point_value'], "Первая поверяемая точка после нулевой отметки"),
+        #("Первая точка",              parse_engineering_string(data['point_value']), "Первая поверяемая точка после нулевой отметки"),
         ("Цена деления",              parse_engineering_string(data['division']), "Цена деления шкалы поверяемого прибора"),
         ("Диапазон измерений",        data['range'], "Диапазон измеряемых давлений"),
         ("Допустимая погрешность",    parse_engineering_string(data['permissible_error']), "Пределы допускаемой основной погрешности по паспорту"),
