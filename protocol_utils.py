@@ -1,5 +1,6 @@
 # protocol_utils.py
 import MOKO
+import MFRT
 from types import SimpleNamespace
 UN = 'moko_pressure_graph'  # Utility Name
 def get_protocol_info():
@@ -43,11 +44,11 @@ def extract_parameters(data):
     return SimpleNamespace(
         accuracy           = float(data['list_accuracy'].replace(',', '.')) if data['list_accuracy'] else 0.0,
         unit               = str(data['unit']),
-        scale_max          = float(data['scale_max'].replace(',', '.')) if data['scale_max'] else 0.0,
-        scale_min          = float(data['scale_min'].replace(',', '.')) if data['scale_min'] else 0.0,
-        point_value        = float(data['point_value'].replace(',', '.')) if data['point_value'] else 0.0,
+        scale_max          = float(MFRT.ConvertStringToFloat(data['scale_max'].strip())) if data['scale_max'] else 0.0,
+        scale_min          = float(MFRT.ConvertStringToFloat(data['scale_min'].strip())) if data['scale_min'] else 0.0,
+        point_value        = float(MFRT.ConvertStringToFloat(data['point_value'].strip())),
         permissible_error  = str(data['permissible_error']),
-        range              =float(data['range'].replace(',', '.')) if data['range'] else 0.0,
+        range              = float(MFRT.ConvertStringToFloat(data['range'].strip())) if data['range'] else 0.0,
         driver             = str(data['driver']),
         location           = str(data['location']),
         device_type        = str(data['device_type']),
@@ -127,7 +128,6 @@ def parse_engineering_string(s):
         'μ': 1e-6,
         'n': 1e-9,
         'p': 1e-12,
-        # добавить русские аналоги
         'м': 1e-3,  # русская м
         'к': 1e3,   # русская к (кило)
         'М': 1e6,   # русская М (мега) - но заглавная
